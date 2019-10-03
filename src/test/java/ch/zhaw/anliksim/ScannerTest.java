@@ -39,9 +39,9 @@ class ScannerTest {
         Scanner.init("4*PI+E");
         assertTokenEquals(4, "number", Scanner.next());
         assertTokenEquals(0, "*", Scanner.next());
-        assertTokenEquals(0, "ident", Scanner.next());
+        assertTokenEquals(Math.PI, "ident", Scanner.next());
         assertTokenEquals(0, "+", Scanner.next());
-        assertTokenEquals(0, "ident", Scanner.next());
+        assertTokenEquals(Math.E, "ident", Scanner.next());
     }
 
     void assertTokenEquals(double expectedValue, String expectedKind, Token actualToken) {
