@@ -1,5 +1,7 @@
 package ch.zhaw.anliksim;
 
+import static ch.zhaw.anliksim.Predicates.*;
+
 public class Scanner {
 
     private static int pos;
@@ -16,7 +18,7 @@ public class Scanner {
         for (; ; ) {
             switch (state) {
                 case 0:
-                    if (ch >= 'A' && ch <= 'Z') {
+                    if (RANGE_A_Z.test(ch)) {
                         str.append(ch);
                         nextCh();
                     } else state = 1;
@@ -35,19 +37,19 @@ public class Scanner {
         for (; ; ) {
             switch (state) {
                 case 0:
-                    if (ch >= '0' && ch <= '9') {
+                    if (RANGE_0_9.test(ch)) {
                         str.append(ch);
                         nextCh();
                     } else state = 1;
                     break;
                 case 1:
-                    if (ch == '.') {
+                    if (DOT.test(ch)) {
                         str.append(ch);
                         nextCh();
                     } else state = 2;
                     break;
                 case 2:
-                    if (ch >= '0' && ch <= '9') {
+                    if (RANGE_0_9.test(ch)) {
                         str.append(ch);
                         nextCh();
                     } else state = 3;
