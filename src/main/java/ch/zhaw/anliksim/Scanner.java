@@ -10,7 +10,22 @@ public class Scanner {
     private static int col;
 
     private static void readName(Token t) {
-
+        t.kind = Token.IDENT;
+        StringBuilder str = new StringBuilder();
+        int state = 0;
+        for (; ; ) {
+            switch (state) {
+                case 0:
+                    if (ch >= 'A' && ch <= 'Z') {
+                        str.append(ch);
+                        nextCh();
+                    } else state = 1;
+                    break;
+                case 1:
+                    t.val = Token.getConstant(str.toString());
+                    return;
+            }
+        }
     }
 
     private static void readNumber(Token t) {

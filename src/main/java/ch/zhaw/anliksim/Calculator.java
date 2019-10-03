@@ -50,7 +50,7 @@ class Calculator {
             Scanner.scan();
             expr();
             Scanner.check(Token.RBRACK);
-        } else if (Scanner.la == Token.NUMBER) {
+        } else if (Scanner.la == Token.NUMBER || Scanner.la == Token.IDENT) {
             Scanner.scan();
             STACK.push(Scanner.token.val);
         }

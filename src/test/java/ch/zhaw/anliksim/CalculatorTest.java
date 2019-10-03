@@ -43,9 +43,15 @@ class CalculatorTest {
     }
 
     @Test
-    void mixAll() throws Exception {
+    void mixExprAndTerms() throws Exception {
         calculate("5*6+10/2-20");
         assertEquals(15, Calculator.pop());
+    }
+
+    @Test
+    void mixWithConstants() throws Exception {
+        calculate("4*PI+E");
+        assertEquals(4 * Math.PI + Math.E, Calculator.pop());
     }
 
     private static void calculate(String s) throws Exception {

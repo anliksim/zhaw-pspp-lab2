@@ -1,6 +1,11 @@
 package ch.zhaw.anliksim;
 
+import java.util.HashMap;
+import java.util.Map;
+
 class Token {
+
+    private static final Map<String, Double> CONSTANTS = new HashMap<>();
 
     static final int NONE = 0;
     static final int NUMBER = 1;
@@ -15,6 +20,11 @@ class Token {
 
     static String[] names = {"none", "number", "+", "-", "*", "/", "(", ")", "ident", "eof"};
 
+    static {
+        CONSTANTS.put("PI", Math.PI);
+        CONSTANTS.put("E", Math.E);
+    }
+
     int kind; // token code
     int pos;  // position
     int line; // line for error
@@ -23,5 +33,9 @@ class Token {
 
     String getKind() {
         return names[kind];
+    }
+
+    static double getConstant(String ident) {
+        return CONSTANTS.get(ident);
     }
 }
