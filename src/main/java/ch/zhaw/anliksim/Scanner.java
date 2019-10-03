@@ -169,9 +169,9 @@ public class Scanner {
         return t;
     }
 
-    static Token token;  // zuletzt erkanntes ch.zhaw.anliksim.Token
+    static Token token;  // zuletzt erkanntes Token
     static int la; // kind von lookahead token
-    private static Token laToken;  // lookahead token
+    static Token laToken;  // lookahead token
 
     // lookahead Methoden
     static void scan() {
