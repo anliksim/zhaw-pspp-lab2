@@ -1,28 +1,22 @@
 plugins {
-    // Apply the java plugin to add support for Java
     id 'java'
+    id 'idea'
 }
 
 dependencies {
-    // This dependency is found on compile classpath of this component and consumers.
     compile 'com.google.guava:guava:23.0'
-
-    // Use JUnit test framework
-    testCompile 'junit:junit:4.12'
+    testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
 }
 
-// In this section you declare where to find the dependencies of your project
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
 repositories {
-    // Use jcenter for resolving your dependencies.
-    // You can declare any Maven/Ivy/file repository here.
     jcenter()
 }
 
 version = '0.1.0'
-
-jar {
-    manifest {
-        attributes('Implementation-Title': project.name,
-                   'Implementation-Version': project.version)
-    }
-}

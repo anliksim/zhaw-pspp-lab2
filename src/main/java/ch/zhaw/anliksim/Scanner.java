@@ -2,12 +2,12 @@ package ch.zhaw.anliksim;
 
 public class Scanner {
 
-    public static int pos;
-    static String input;
-    static char ch;
-    static final char EOF = '\u0080';
-    static int line;
-    static int col;
+    private static int pos;
+    private static char[] input;
+    private static char ch;
+    private static final char EOF = '\u0080';
+    private static int line;
+    private static int col;
 
     private static void readName(Token t) {
 
@@ -15,26 +15,38 @@ public class Scanner {
 
     private static void readNumber(Token t) {
         t.kind = Token.NUMBER;
-        t.str = "";
+        StringBuilder str = new StringBuilder();
         int state = 0;
         for (; ; ) {
             switch (state) {
                 case 0:
                     if (ch >= '0' && ch <= '9') {
-                        t.str += ch;
+                        str.append(ch);
                         nextCh();
                     } else state = 1;
                     break;
                 case 1:
-                    t.val = Integer.parseInt(t.str);
+                    if (ch == '.') {
+                        str.append(ch);
+                        nextCh();
+                    } else state = 2;
+                    break;
+                case 2:
+                    if (ch >= '0' && ch <= '9') {
+                        str.append(ch);
+                        nextCh();
+                    } else state = 3;
+                    break;
+                case 3:
+                    t.val = Double.parseDouble(str.toString());
                     return;
             }
         }
     }
 
     private static void nextCh() {
-        if (pos < input.length()) {
-            ch = input.charAt(pos++);
+        if (pos < input.length) {
+            ch = input[pos++];
             if (ch == '\n') {
                 line++;
                 col++;
@@ -44,7 +56,7 @@ public class Scanner {
     }
 
     public static void init(String s) {
-        input = s;
+        input = s.toCharArray();
         pos = 0;
         nextCh();
     }
@@ -157,24 +169,23 @@ public class Scanner {
         return t;
     }
 
-
-    public static Token token;  // zuletzt erkanntes ch.zhaw.anliksim.Token
-    public static int la; // kind von lookahead token
-    public static Token laToken;  // lookahead token
+    static Token token;  // zuletzt erkanntes ch.zhaw.anliksim.Token
+    static int la; // kind von lookahead token
+    private static Token laToken;  // lookahead token
 
     // lookahead Methoden
-    public static void scan() {
+    static void scan() {
         token = laToken;
         laToken = Scanner.next();
         la = laToken.kind;
     }
 
-    public static void check(int expected) throws Exception {
+    static void check(int expected) throws Exception {
         if (la == expected) scan();  // erkannt, daher weiterlesen
         else error(Token.names[expected] + " expected");
     }
 
-    public static void error(String msg) throws Exception {
+    private static void error(String msg) throws Exception {
         throw new Exception(msg + " at " + Scanner.laToken.pos);
     }
 
@@ -187,7 +198,5 @@ public class Scanner {
             t = next();
         }
         System.out.println();
-
     }
-
 }
